@@ -12,9 +12,7 @@ public class IntJoukko {
 
     public IntJoukko() {
         ljono = new int[KAPASITEETTI];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
+        taytaJoukko();
         alkioidenLkm = 0;
         this.kasvatuskoko = OLETUSKASVATUS;
     }
@@ -24,12 +22,16 @@ public class IntJoukko {
             return;
         }
         ljono = new int[kapasiteetti];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
+        taytaJoukko();
         alkioidenLkm = 0;
         this.kasvatuskoko = OLETUSKASVATUS;
 
+    }
+
+    private void taytaJoukko() {
+        for (int i = 0; i < ljono.length; i++) {
+            ljono[i] = 0;
+        }
     }
     
     
@@ -41,9 +43,7 @@ public class IntJoukko {
             throw new IndexOutOfBoundsException("kapasiteetti2");//heitin vaan jotain :D
         }
         ljono = new int[kapasiteetti];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
+        taytaJoukko();
         alkioidenLkm = 0;
         this.kasvatuskoko = kasvatuskoko;
 
@@ -56,7 +56,6 @@ public class IntJoukko {
             ljono[0] = luku;
             alkioidenLkm++;
             return true;
-        } else {
         }
         if (!kuuluu(luku)) {
             ljono[alkioidenLkm] = luku;
@@ -88,15 +87,8 @@ public class IntJoukko {
     }
 
     public boolean poista(int luku) {
-        int kohta = -1;
+        int kohta = etsiLuku(luku);
         int apu;
-        for (int i = 0; i < alkioidenLkm; i++) {
-            if (luku == ljono[i]) {
-                kohta = i; //siis luku löytyy tuosta kohdasta :D
-                ljono[kohta] = 0;
-                break;
-            }
-        }
         if (kohta != -1) {
             for (int j = kohta; j < alkioidenLkm - 1; j++) {
                 apu = ljono[j];
@@ -106,9 +98,19 @@ public class IntJoukko {
             alkioidenLkm--;
             return true;
         }
-
-
         return false;
+    }
+
+    private int etsiLuku(int luku) {
+        int kohta = -1;
+        for (int i = 0; i < alkioidenLkm; i++) {
+            if (luku == ljono[i]) {
+                kohta = i; //siis luku löytyy tuosta kohdasta :D
+                ljono[kohta] = 0;
+                break;
+            }
+        }
+        return kohta;
     }
 
     private void kopioiTaulukko(int[] vanha, int[] uusi) {
